@@ -1,4 +1,4 @@
-package com.base;
+package com.data;
 
 import com.opencsv.bean.CsvBindByPosition;
 
