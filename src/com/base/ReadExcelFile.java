@@ -40,39 +40,6 @@ public class ReadExcelFile{
 		
 			// Comparison.csv Header
 
-			List<ComparisonData> compData = new ArrayList<ComparisonData>();
-			Writer writer = new FileWriter("ComparisonData.csv");
-			StatefulBeanToCsv sbc = new StatefulBeanToCsvBuilder(writer).withSeparator(CSVWriter.DEFAULT_SEPARATOR).build();
-		
-//			BufferedWriter bw = new BufferedWriter(writer);
-
-			for (int i = 0; i < ClientData.size(); i++) {
-				int tempSalary = 0;
-				if (Integer.parseInt(ClientData.get(i).getSalary()) > Integer.parseInt(BankData.get(i).getSalary())) {
-					tempSalary = Integer.parseInt(ClientData.get(i).getSalary())
-							- Integer.parseInt(BankData.get(i).getSalary());
-				} else if (Integer.parseInt(ClientData.get(i).getSalary()) < Integer
-						.parseInt(BankData.get(i).getSalary())) {
-					tempSalary = -Integer.parseInt(ClientData.get(i).getSalary())
-							+ Integer.parseInt(BankData.get(i).getSalary());
-				}
-				
-				compData.add(new ComparisonData(
-						BankData.get(i).getEmp_id(),
-						BankData.get(i).getEmp_name(),
-						ClientData.get(i).getSalary(),
-						BankData.get(i).getSalary(),
-						Integer.toString(tempSalary)
-						));
-				
-				
-				
-
-			}
-			sbc.write(compData);
-			System.out.println(compData.toString());
-			//Create Deficit and surpluse
-			
 			@SuppressWarnings("rawtypes")
 			ColumnPositionMappingStrategy mappingStrategy = new ColumnPositionMappingStrategy();
 			mappingStrategy.setType(ComparisonData.class);
@@ -80,6 +47,46 @@ public class ReadExcelFile{
 			String[] columns = new String[] { "EmpId", "EmpName", "Salary", "SalaryCreditedByBank", "SalaryDeficit" };
 			mappingStrategy.setColumnMapping(columns);
 
+			
+			List<ComparisonData> compData = new ArrayList<ComparisonData>();
+			Writer writer = new FileWriter("ComparisonData.csv");
+			@SuppressWarnings("rawtypes")
+			StatefulBeanToCsv sbc = new StatefulBeanToCsvBuilder(writer).withSeparator(CSVWriter.DEFAULT_SEPARATOR).build();
+		
+//			BufferedWriter bw = new BufferedWriter(writer);
+
+			for (int i = 0; i < ClientData.size(); i++) {
+				int salaryDeficit = 0;
+				int salarySurpluse = 0;
+				if (Integer.parseInt(ClientData.get(i).getSalary()) > Integer.parseInt(BankData.get(i).getSalary())) {
+					salaryDeficit = Integer.parseInt(ClientData.get(i).getSalary())
+							- Integer.parseInt(BankData.get(i).getSalary());
+					salarySurpluse = 0;
+				} else if (Integer.parseInt(ClientData.get(i).getSalary()) < Integer
+						.parseInt(BankData.get(i).getSalary())) {
+					salarySurpluse = -Integer.parseInt(ClientData.get(i).getSalary())
+							+ Integer.parseInt(BankData.get(i).getSalary());
+					salaryDeficit = 0;
+				}
+				
+				compData.add(new ComparisonData(
+						BankData.get(i).getEmp_id(),
+						BankData.get(i).getEmp_name(),
+						ClientData.get(i).getSalary(),
+						BankData.get(i).getSalary(),
+						Integer.toString(salaryDeficit),
+						Integer.toString(salarySurpluse)
+						));
+				
+				sbc.write(compData);
+				
+
+			}
+			
+			System.out.println(compData.toString());
+			//Create Deficit and surpluse
+			
+			
 
 			
 			
