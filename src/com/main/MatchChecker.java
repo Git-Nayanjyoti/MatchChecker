@@ -27,12 +27,12 @@ public class MatchChecker {
 		try {
 			//Reading BankData.csv file using openCSV parser
 			BankData = new CsvToBeanBuilder<BankData>(
-					new FileReader("C:\\Users\\NRABHA\\eclipse-workspace\\MatchChecker\\Resources\\Bank.csv")).withType(BankData.class)
+					new FileReader("../MatchChecker/Resources/Bank.csv")).withType(BankData.class)
 							.withSkipLines(1).build().parse();
 
 			//Reading ClientData.csv file using openCSV parser
 			ClientData = new CsvToBeanBuilder<ClientData>(
-					new FileReader("C:\\Users\\NRABHA\\eclipse-workspace\\MatchChecker\\Resources\\EmployeeDetails.csv"))
+					new FileReader("../MatchChecker/Resources/EmployeeDetails.csv"))
 							.withType(ClientData.class).withSkipLines(1).build().parse();
 
 			//List of String Array 
